@@ -38,7 +38,7 @@ func (set *Set) Recurrence() []string {
 	return res
 }
 
-// DTStart sets dtstart property for all rules in set
+// DTStart sets DateStart property for all rules in set
 func (set *Set) DTStart(dtstart time.Time) {
 	set.dtstart = dtstart.Truncate(time.Second)
 
@@ -51,7 +51,7 @@ func (set *Set) DTStart(dtstart time.Time) {
 	}
 }
 
-// GetDTStart gets dtstart for set
+// GetDTStart gets DateStart for set
 func (set *Set) GetDTStart() time.Time {
 	return set.dtstart
 }

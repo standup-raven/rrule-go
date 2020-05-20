@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/teambition/rrule-go"
+	"github.com/standup-raven/rrule-go"
 )
 
 func exampleRRule() {

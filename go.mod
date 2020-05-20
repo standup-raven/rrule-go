@@ -1,3 +1,3 @@
-module github.com/teambition/rrule-go
+module github.com/standup-raven/rrule-go
 
 go 1.12
