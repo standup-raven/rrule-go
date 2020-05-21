@@ -2,9 +2,8 @@ package main
 
 import (
 	"fmt"
-	"time"
-
 	"github.com/teambition/rrule-go"
+	"time"
 )
 
 func exampleRRule() {

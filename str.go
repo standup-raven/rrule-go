@@ -423,7 +423,7 @@ func strToDtStart(str string, defaultLoc *time.Location) (time.Time, error) {
 		}
 		return strToTimeInLoc(tmp[1], loc)
 	}
-	// no tzid, len == 1
+	// no tzid, Len == 1
 	return strToTimeInLoc(tmp[0], defaultLoc)
 }
 

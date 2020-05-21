@@ -257,8 +257,8 @@ func TestRFCSetStr(t *testing.T) {
 			t.Fatalf("Expected RRule %s to be RFC compliant", rrule)
 		}
 
-		if !dtWantTime.Equal(rrule.dtstart) {
-			t.Fatalf("Expected RRule dtstart to be %v got %v", dtWantTime, rrule.dtstart)
+		if !dtWantTime.Equal(rrule.DateStart) {
+			t.Fatalf("Expected RRule DateStart to be %v got %v", dtWantTime, rrule.DateStart)
 		}
 	}
 
@@ -267,18 +267,18 @@ func TestRFCSetStr(t *testing.T) {
 			t.Fatalf("Expected ExRule %s to be RFC compliant", exrule)
 		}
 
-		if !dtWantTime.Equal(exrule.dtstart) {
-			t.Fatalf("Expected ExRule dtstart to be %v got %v", dtWantTime, exrule.dtstart)
+		if !dtWantTime.Equal(exrule.DateStart) {
+			t.Fatalf("Expected ExRule DateStart to be %v got %v", dtWantTime, exrule.DateStart)
 		}
 	}
 
 	dtstart := set.GetDTStart()
 	if dtstart.IsZero() {
-		t.Errorf("dtstart not set")
+		t.Errorf("DateStart not set")
 	}
 
 	if !dtstart.Equal(dtWantTime) {
-		t.Errorf("dtstart time wrong should be %s but is %s", dtWantTime, dtstart)
+		t.Errorf("DateStart time wrong should be %s but is %s", dtWantTime, dtstart)
 	}
 
 	assertRulesMatch(set, t)
