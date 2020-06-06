@@ -35,6 +35,11 @@ func init() {
 	for i := 0; i < 55; i++ {
 		WDAYMASK = append(WDAYMASK, []int{0, 1, 2, 3, 4, 5, 6}...)
 	}
+
+	weekdayIndexToWeekday = make(map[int]Weekday)
+	for _, weekday := range weekdays {
+		weekdayIndexToWeekday[weekday.weekday] = weekday
+	}
 }
 
 // Frequency denotes the period on which the rule is evaluated.
@@ -86,6 +91,14 @@ var (
 	SA = Weekday{weekday: 5}
 	SU = Weekday{weekday: 6}
 )
+
+var weekdays = []Weekday{MO, TU, WE, TH, FR, SA, SU}
+
+var weekdayIndexToWeekday map[int]Weekday
+
+func WeekdayIndexToWeekday(n int) Weekday {
+	return weekdayIndexToWeekday[n]
+}
 
 // ROption offers options to construct a RRule instance
 type ROption struct {
@@ -173,7 +186,7 @@ func NewRRule(arg ROption) (*RRule, error) {
 		} else if r.Freq == MONTHLY {
 			arg.Bymonthday = []int{r.DateStart.Day()}
 		} else if r.Freq == WEEKLY {
-			arg.Byweekday = []Weekday{Weekday{weekday: toPyWeekday(r.DateStart.Weekday())}}
+			arg.Byweekday = []Weekday{{weekday: toPyWeekday(r.DateStart.Weekday())}}
 		}
 	}
 	r.Bymonth = arg.Bymonth
@@ -229,11 +242,11 @@ func NewRRule(arg ROption) (*RRule, error) {
 // obvious user error.
 func validateBounds(arg ROption) error {
 	bounds := []struct {
-		field []int
-		param string
-		bound []int
+		field     []int
+		param     string
+		bound     []int
 		plusMinus bool // If the bound also applies for -x to -y.
-	} {
+	}{
 		{arg.Bysecond, "Bysecond", []int{0, 59}, false},
 		{arg.Byminute, "Byminute", []int{0, 59}, false},
 		{arg.Byhour, "Byhour", []int{0, 23}, false},
@@ -416,7 +429,7 @@ func (info *iterInfo) rebuild(year int, month time.Month) {
 					ranges = append(ranges, info.mrange[month-1:month+1])
 				}
 			} else {
-				ranges = [][]int{[]int{0, info.yearlen}}
+				ranges = [][]int{{0, info.yearlen}}
 			}
 		} else if info.rrule.Freq == MONTHLY {
 			ranges = [][]int{info.mrange[month-1 : month+1]}
@@ -724,7 +737,7 @@ func (iterator *rIterator) generate() {
 		} else if r.Freq == SECONDLY {
 			if filtered {
 				// Jump to one iteration before next day
-				iterator.second += (((86399 - (iterator.hour*3600 + iterator.minute*60 + iterator.second)) / r.Interval) * r.Interval)
+				iterator.second += ((86399 - (iterator.hour*3600 + iterator.minute*60 + iterator.second)) / r.Interval) * r.Interval
 			}
 			for {
 				iterator.second += r.Interval
